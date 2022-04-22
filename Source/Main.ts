@@ -6,16 +6,16 @@ namespace Template {
 
 
 
-  // transitions definieren
+  // transitions
   export let transitions = {
     puzzle: {
       duration: 1, // in Sekunden
-      alpha: "./FreeTransitions/5.png", 
+      alpha: "/FreeTransitions/5.jpg",
       edge: 1
     }
   };
 
-  // sounds definieren
+  // sounds
   export let sound = {
     // themes
     backgroundTheme: "Pfad",
@@ -24,7 +24,7 @@ namespace Template {
     click: "Pfad"
   };
 
-  // backgrounds definieren
+  // backgrounds
   export let locations = {
     room: {
       name: "Room",
@@ -41,12 +41,12 @@ namespace Template {
       name: ""
     },
     mainCharacter: {
-      name: "Test",
+      name: "Olorin",
       origin: ƒS.ORIGIN.BOTTOMCENTER,   // Ankerpunkt: Anfangsposition im Canvas, kann in der Szene umpositioniert werden
       pose: {
         angry: "./Images/Characters/Test/Test_Angry.png",
-        happy: "./Images/Characters/Test/Test_Happy.png",
-        neutral: "./Images/Characters/Test/Test_Neutral.png"
+        happy: "./Images/Characters/Test/Test_Happy_1.png",
+        neutral: "./Images/Characters/Test/Test_Neutral_1.png"
       }
     }/* ,
     secondCharacter: {
@@ -75,4 +75,7 @@ namespace Template {
     // start the sequence
     ƒS.Progress.go(scenes);
   }
+
+  let uiElement: HTMLElement = document.querySelector("[type=interface]");
+  dataForSave = ƒS.Progress.setData(dataForSave, uiElement);
 }

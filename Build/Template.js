@@ -10,17 +10,46 @@ var Template;
             },
             mainCharacter: {
                 T001: "Hello World!",
-                T002: "This is a test :)"
+                T002: "This is a test."
             }
         };
-        // Text anzeigen
-        // waitForSignal -> auf Userinput warten?
-        // _class -> CSS Klassen
+        //ƒS.Sound.play();
         await Template.ƒS.Location.show(Template.locations.park);
-        await Template.ƒS.Character.show(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.neutral, Template.ƒS.positionPercent(0, 100));
+        await Template.ƒS.update(Template.transitions.puzzle.duration, Template.transitions.puzzle.alpha, Template.transitions.puzzle.edge);
+        await Template.ƒS.Character.show(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.neutral, Template.ƒS.positionPercent(25, 100));
+        await Template.ƒS.update();
         await Template.ƒS.Speech.tell(Template.characters.mainCharacter, text.mainCharacter.T001);
         await Template.ƒS.Speech.tell(Template.characters.mainCharacter, text.mainCharacter.T002);
         //await ƒS.Speech.tell(characters.mainCharacter, "Test");
+        //ƒS.Speech.clear(); // blendet Text aus, Textfeld ist noch da
+        Template.ƒS.Speech.hide(); // blendet Textfeld aus
+        Template.ƒS.Character.hide(Template.characters.mainCharacter);
+        //await ƒS.Character.show(characters.mainCharacter, characters.mainCharacter.pose.happy, ƒS.positions.bottomcenter);
+        await Template.ƒS.Character.show(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.happy, Template.ƒS.positionPercent(25, 100));
+        await Template.ƒS.update();
+        await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Soll es jetzt weiter gehen?");
+        let firstDialogueElementAnswers = {
+            iSayOk: "Okay.",
+            iSayYes: "Ja gerne!",
+            iSayNo: "Nö."
+        };
+        let firstDialogueElement = await Template.ƒS.Menu.getInput(firstDialogueElementAnswers, "individualCSSclass");
+        switch (firstDialogueElement) {
+            case firstDialogueElementAnswers.iSayOk:
+                // continue path here
+                await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Alles klar.");
+                Template.ƒS.Speech.clear();
+                break;
+            case firstDialogueElementAnswers.iSayYes:
+                // continue path here
+                await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Super!");
+                break;
+            case firstDialogueElementAnswers.iSayNo:
+                // continue path here
+                await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Schade.");
+                break;
+        }
+        // continue story after decision here
     }
     Template.Introduction = Introduction;
 })(Template || (Template = {}));
@@ -29,22 +58,22 @@ var Template;
     Template.ƒ = FudgeCore;
     Template.ƒS = FudgeStory;
     console.log("Visual Novel starting");
-    // transitions definieren
+    // transitions
     Template.transitions = {
         puzzle: {
             duration: 1,
-            alpha: "./FreeTransitions/5.png",
+            alpha: "/FreeTransitions/5.jpg",
             edge: 1
         }
     };
-    // sounds definieren
+    // sounds
     Template.sound = {
         // themes
         backgroundTheme: "Pfad",
         // SFX
         click: "Pfad"
     };
-    // backgrounds definieren
+    // backgrounds
     Template.locations = {
         room: {
             name: "Room",
@@ -60,12 +89,12 @@ var Template;
             name: ""
         },
         mainCharacter: {
-            name: "Test",
+            name: "Olorin",
             origin: Template.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 angry: "./Images/Characters/Test/Test_Angry.png",
-                happy: "./Images/Characters/Test/Test_Happy.png",
-                neutral: "./Images/Characters/Test/Test_Neutral.png"
+                happy: "./Images/Characters/Test/Test_Happy_1.png",
+                neutral: "./Images/Characters/Test/Test_Neutral_1.png"
             }
         } /* ,
         secondCharacter: {
@@ -91,6 +120,8 @@ var Template;
         // start the sequence
         Template.ƒS.Progress.go(scenes);
     }
+    let uiElement = document.querySelector("[type=interface]");
+    Template.dataForSave = Template.ƒS.Progress.setData(Template.dataForSave, uiElement);
 })(Template || (Template = {}));
 var Template;
 (function (Template) {
