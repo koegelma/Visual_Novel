@@ -52,12 +52,14 @@ namespace Template {
       case firstDialogueElementAnswers.iSayNo:
         // continue path here
         await ƒS.Speech.tell(characters.mainCharacter, "Schade.");
+        ƒS.Character.hide(characters.mainCharacter);
+        await ƒS.Character.animate(characters.mainCharacter, characters.mainCharacter.pose.neutral, getAnimation());
         break;
     }
 
     // continue story after decision here
 
-    
+
 
   }
 }

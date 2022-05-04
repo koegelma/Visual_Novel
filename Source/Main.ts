@@ -65,8 +65,86 @@ namespace Template {
     score: 0
   };
 
+  export function showCredits(): void {
+    ƒS.Text.setClass("credtis"); //addClass; setClass überschreibt
+    ƒS.Text.print("Credits here");
+  }
+
+  export function getAnimation(): ƒS.AnimationDefinition {
+    return {
+      start: { translation: ƒS.positions.bottomleft, rotation: -20, scaling: new ƒS.Position(0.5, 1.5), color: ƒS.Color.CSS("white", 0.3) },
+      end: { translation: ƒS.positions.bottomright, rotation: 20, scaling: new ƒS.Position(1.5, 0.5), color: ƒS.Color.CSS("red") },
+      duration: 1,
+      playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+    };
+  }
+
+  // Menu
+
+  //buttons
+  let inGameMenuButttons = {
+    save: "Save",
+    load: "Load",
+    //volume
+    close: "Close",
+    credits: "Credits"
+  };
+
+  let gameMenu: ƒS.Menu;
+
+  let menuIsOpen: boolean = true;
+
+  async function buttonFunctionalities(_option: string): Promise<void> {
+    console.log(_option);
+    switch (_option) {
+      case inGameMenuButttons.save:
+        await ƒS.Progress.save();
+        break;
+      case inGameMenuButttons.load:
+        await ƒS.Progress.load();
+        break;
+      case inGameMenuButttons.close:
+        gameMenu.close();
+        menuIsOpen = false;
+        break;
+      case inGameMenuButttons.credits:
+        showCredits();
+        break;
+    }
+  }
+
+  // shortcuts fürs menu
+  document.addEventListener("keydown", hndKeyPress);
+
+  async function hndKeyPress(_event: KeyboardEvent): Promise<void> {
+    switch (_event.code) {
+      case ƒ.KEYBOARD_CODE.F8:
+        console.log("Save");
+        await ƒS.Progress.save();
+        break;
+      case ƒ.KEYBOARD_CODE.F9:
+        console.log("Load");
+        await ƒS.Progress.load();
+        break;
+      case ƒ.KEYBOARD_CODE.M:
+        // menuIsOpen = !menuIsOpen;
+        if (menuIsOpen) {
+          console.log("Menu close");
+          gameMenu.close();
+          menuIsOpen = false;
+        } else {
+          console.log("Menu open");
+          gameMenu.open();
+          menuIsOpen = true;
+        }
+        break;
+    }
+  }
+
   window.addEventListener("load", start);
   function start(_event: Event): void {
+    gameMenu = ƒS.Menu.create(inGameMenuButttons, buttonFunctionalities, "gameMenuCSSclass");
+    buttonFunctionalities("Close");
     let scenes: ƒS.Scenes = [
       //{ scene: Scene, name: "Scene" },
       { scene: Introduction, name: "Introduction" }
@@ -79,3 +157,5 @@ namespace Template {
   let uiElement: HTMLElement = document.querySelector("[type=interface]");
   dataForSave = ƒS.Progress.setData(dataForSave, uiElement);
 }
+
+

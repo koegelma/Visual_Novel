@@ -43,6 +43,8 @@ declare namespace Template {
         nameProtagonist: string;
         score: number;
     };
+    function showCredits(): void;
+    function getAnimation(): ƒS.AnimationDefinition;
 }
 declare namespace Template {
     function Scene(): ƒS.SceneReturn;

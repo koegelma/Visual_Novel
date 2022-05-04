@@ -47,6 +47,8 @@ var Template;
             case firstDialogueElementAnswers.iSayNo:
                 // continue path here
                 await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Schade.");
+                Template.ƒS.Character.hide(Template.characters.mainCharacter);
+                await Template.ƒS.Character.animate(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.neutral, Template.getAnimation());
                 break;
         }
         // continue story after decision here
@@ -111,8 +113,80 @@ var Template;
         nameProtagonist: "",
         score: 0
     };
+    function showCredits() {
+        Template.ƒS.Text.setClass("credtis"); //addClass; setClass überschreibt
+        Template.ƒS.Text.print("Credits here");
+    }
+    Template.showCredits = showCredits;
+    function getAnimation() {
+        return {
+            start: { translation: Template.ƒS.positions.bottomleft, rotation: -20, scaling: new Template.ƒS.Position(0.5, 1.5), color: Template.ƒS.Color.CSS("white", 0.3) },
+            end: { translation: Template.ƒS.positions.bottomright, rotation: 20, scaling: new Template.ƒS.Position(1.5, 0.5), color: Template.ƒS.Color.CSS("red") },
+            duration: 1,
+            playmode: Template.ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+    Template.getAnimation = getAnimation;
+    // Menu
+    //buttons
+    let inGameMenuButttons = {
+        save: "Save",
+        load: "Load",
+        //volume
+        close: "Close",
+        credits: "Credits"
+    };
+    let gameMenu;
+    let menuIsOpen = true;
+    async function buttonFunctionalities(_option) {
+        console.log(_option);
+        switch (_option) {
+            case inGameMenuButttons.save:
+                await Template.ƒS.Progress.save();
+                break;
+            case inGameMenuButttons.load:
+                await Template.ƒS.Progress.load();
+                break;
+            case inGameMenuButttons.close:
+                gameMenu.close();
+                menuIsOpen = false;
+                break;
+            case inGameMenuButttons.credits:
+                showCredits();
+                break;
+        }
+    }
+    // shortcuts fürs menu
+    document.addEventListener("keydown", hndKeyPress);
+    async function hndKeyPress(_event) {
+        switch (_event.code) {
+            case Template.ƒ.KEYBOARD_CODE.F8:
+                console.log("Save");
+                await Template.ƒS.Progress.save();
+                break;
+            case Template.ƒ.KEYBOARD_CODE.F9:
+                console.log("Load");
+                await Template.ƒS.Progress.load();
+                break;
+            case Template.ƒ.KEYBOARD_CODE.M:
+                // menuIsOpen = !menuIsOpen;
+                if (menuIsOpen) {
+                    console.log("Menu close");
+                    gameMenu.close();
+                    menuIsOpen = false;
+                }
+                else {
+                    console.log("Menu open");
+                    gameMenu.open();
+                    menuIsOpen = true;
+                }
+                break;
+        }
+    }
     window.addEventListener("load", start);
     function start(_event) {
+        gameMenu = Template.ƒS.Menu.create(inGameMenuButttons, buttonFunctionalities, "gameMenuCSSclass");
+        buttonFunctionalities("Close");
         let scenes = [
             //{ scene: Scene, name: "Scene" },
             { scene: Template.Introduction, name: "Introduction" }
