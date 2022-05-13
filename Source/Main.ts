@@ -41,7 +41,7 @@ namespace Template {
       name: ""
     },
     mainCharacter: {
-      name: "Olorin",
+      name: "Protagonist",
       origin: ƒS.ORIGIN.BOTTOMCENTER,   // Ankerpunkt: Anfangsposition im Canvas, kann in der Szene umpositioniert werden
       pose: {
         angry: "./Images/Characters/Test/Test_Angry.png",
@@ -58,6 +58,27 @@ namespace Template {
         neutral: "Pfad.png"
       }
     } */
+  };
+
+  // items
+  export let items = {
+    handy: {
+      name: "Handy",
+      description: "Dein eigenes Handy, wow.",
+      image: "./Images/Items/phone.png",
+      static: true
+    },
+    laptop: {
+      name: "Laptop",
+      description: "Dein eigener Laptop, wow.",
+      image: "./Images/Items/laptop.png",
+      static: true
+    },
+    apple: {
+      name: "Apfel",
+      description: "Lecker, Apfel.",
+      image: "./Images/Items/apple.png"
+    }
   };
 
   export let dataForSave = {    // Alles was gespeichert werden soll, Speicher-/Ladepunkt immer zu Beginn der Szene
@@ -116,6 +137,8 @@ namespace Template {
   // shortcuts fürs menu
   document.addEventListener("keydown", hndKeyPress);
 
+  let inventoryIsOpen: boolean = false;
+
   async function hndKeyPress(_event: KeyboardEvent): Promise<void> {
     switch (_event.code) {
       case ƒ.KEYBOARD_CODE.F8:
@@ -138,6 +161,14 @@ namespace Template {
           menuIsOpen = true;
         }
         break;
+      case ƒ.KEYBOARD_CODE.I:
+        inventoryIsOpen = !inventoryIsOpen;
+        if (inventoryIsOpen) {
+          ƒS.Inventory.open();
+        } else {
+          ƒS.Inventory.close();
+        }
+        break;
     }
   }
 
@@ -147,7 +178,8 @@ namespace Template {
     buttonFunctionalities("Close");
     let scenes: ƒS.Scenes = [
       //{ scene: Scene, name: "Scene" },
-      { scene: Introduction, name: "Introduction" }
+      //{ scene: Introduction, name: "Introduction" }
+      { scene: Inventory_Test, name: "Inventory_Test" }
     ];
 
     // start the sequence

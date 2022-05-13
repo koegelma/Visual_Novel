@@ -57,9 +57,13 @@ namespace Template {
         break;
     }
 
+    dataForSave.nameProtagonist = await ƒS.Speech.getInput();
+
     // continue story after decision here
 
+    //ƒS.Speech.setTickerDelays();
 
+    //ƒS.Inventory.add();
 
   }
 }

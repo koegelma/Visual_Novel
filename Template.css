@@ -48,3 +48,8 @@ dialog[type=splash]>img#FudgeStoryLogo {
   width: 100%;
 }
 
+dialog[type="inventory"] ul {
+  width: 1000px;
+  height: 800px;
+  cursor: pointer;
+}

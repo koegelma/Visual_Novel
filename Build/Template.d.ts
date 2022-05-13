@@ -2,6 +2,9 @@ declare namespace Template {
     function Introduction(): ƒS.SceneReturn;
 }
 declare namespace Template {
+    function Inventory_Test(): ƒS.SceneReturn;
+}
+declare namespace Template {
     export import ƒ = FudgeCore;
     export import ƒS = FudgeStory;
     let transitions: {
@@ -37,6 +40,25 @@ declare namespace Template {
                 happy: string;
                 neutral: string;
             };
+        };
+    };
+    let items: {
+        handy: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
+        laptop: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
+        apple: {
+            name: string;
+            description: string;
+            image: string;
         };
     };
     let dataForSave: {

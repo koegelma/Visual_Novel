@@ -51,9 +51,49 @@ var Template;
                 await Template.ƒS.Character.animate(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.neutral, Template.getAnimation());
                 break;
         }
+        Template.dataForSave.nameProtagonist = await Template.ƒS.Speech.getInput();
         // continue story after decision here
+        //ƒS.Speech.setTickerDelays();
+        //ƒS.Inventory.add();
     }
     Template.Introduction = Introduction;
+})(Template || (Template = {}));
+var Template;
+(function (Template) {
+    async function Inventory_Test() {
+        await Template.ƒS.Location.show(Template.locations.room);
+        await Template.ƒS.Character.show(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.neutral, Template.ƒS.positionPercent(25, 100));
+        await Template.ƒS.update(Template.transitions.puzzle.duration, Template.transitions.puzzle.alpha, Template.transitions.puzzle.edge);
+        await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Nanu, schon so spät?!");
+        await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Ich muss dringend los zur Vorlesung, aber wo ist denn jetzt mein Handy?");
+        let phoneSearchOptions = {
+            iSayTable: "Auf meinem Schreibtisch?",
+            iSayBed: "Auf meinem Bett?"
+        };
+        let phoneSearchElement = await Template.ƒS.Menu.getInput(phoneSearchOptions, "individualCSSclass");
+        switch (phoneSearchElement) {
+            case phoneSearchOptions.iSayTable:
+                await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Ah stimmt, ich habe es auf dem Schreibtisch abgelegt!");
+                break;
+            case phoneSearchOptions.iSayBed:
+                await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Richtig, es liegt auf meinem Bett!");
+                break;
+        }
+        Template.ƒS.Character.hide(Template.characters.mainCharacter);
+        Template.ƒS.Speech.clear();
+        await Template.ƒS.Character.show(Template.characters.mainCharacter, Template.characters.mainCharacter.pose.happy, Template.ƒS.positionPercent(25, 100));
+        Template.ƒS.Inventory.add(Template.items.handy);
+        await Template.ƒS.update();
+        await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Und meinen Laptop darf ich auch nicht vergessen.");
+        Template.ƒS.Inventory.add(Template.items.laptop);
+        await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Ich nehm mir mal lieber noch ein paar Äpfel mit, sonst hab ich später wieder so nen Hunger.");
+        for (let i = 0; i < 3; i++) {
+            Template.ƒS.Inventory.add(Template.items.apple);
+        }
+        await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Jetzt kann ich aber endlich losgehen!");
+        Template.ƒS.Speech.clear();
+    }
+    Template.Inventory_Test = Inventory_Test;
 })(Template || (Template = {}));
 var Template;
 (function (Template) {
@@ -91,7 +131,7 @@ var Template;
             name: ""
         },
         mainCharacter: {
-            name: "Olorin",
+            name: "Protagonist",
             origin: Template.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 angry: "./Images/Characters/Test/Test_Angry.png",
@@ -108,6 +148,26 @@ var Template;
             neutral: "Pfad.png"
           }
         } */
+    };
+    // items
+    Template.items = {
+        handy: {
+            name: "Handy",
+            description: "Dein eigenes Handy, wow.",
+            image: "./Images/Items/phone.png",
+            static: true
+        },
+        laptop: {
+            name: "Laptop",
+            description: "Dein eigener Laptop, wow.",
+            image: "./Images/Items/laptop.png",
+            static: true
+        },
+        apple: {
+            name: "Apfel",
+            description: "Lecker, Apfel.",
+            image: "./Images/Items/apple.png"
+        }
     };
     Template.dataForSave = {
         nameProtagonist: "",
@@ -158,6 +218,7 @@ var Template;
     }
     // shortcuts fürs menu
     document.addEventListener("keydown", hndKeyPress);
+    let inventoryIsOpen = false;
     async function hndKeyPress(_event) {
         switch (_event.code) {
             case Template.ƒ.KEYBOARD_CODE.F8:
@@ -181,6 +242,15 @@ var Template;
                     menuIsOpen = true;
                 }
                 break;
+            case Template.ƒ.KEYBOARD_CODE.I:
+                inventoryIsOpen = !inventoryIsOpen;
+                if (inventoryIsOpen) {
+                    Template.ƒS.Inventory.open();
+                }
+                else {
+                    Template.ƒS.Inventory.close();
+                }
+                break;
         }
     }
     window.addEventListener("load", start);
@@ -189,7 +259,8 @@ var Template;
         buttonFunctionalities("Close");
         let scenes = [
             //{ scene: Scene, name: "Scene" },
-            { scene: Template.Introduction, name: "Introduction" }
+            //{ scene: Introduction, name: "Introduction" }
+            { scene: Template.Inventory_Test, name: "Inventory_Test" }
         ];
         // start the sequence
         Template.ƒS.Progress.go(scenes);
