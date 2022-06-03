@@ -81,7 +81,7 @@ namespace Template {
     }
   };
 
-  export let dataForSave = {    // Alles was gespeichert werden soll, Speicher-/Ladepunkt immer zu Beginn der Szene
+  export let dataForSave = {    // Alles was über Szenen hinaus gespeichert werden soll, Speicher-/Ladepunkt immer zu Beginn der Szene
     nameProtagonist: "",
     score: 0
   };
@@ -180,14 +180,15 @@ namespace Template {
       //{ scene: Scene, name: "Scene" },
       //{ scene: Introduction, name: "Introduction" }
       { scene: Inventory_Test, name: "Inventory_Test" }
+      //{id: "", scene: Scene, name: "Scene" , next:""}, --> next mit id ansprechen
     ];
+
+    let uiElement: HTMLElement = document.querySelector("[type=interface]");
+    dataForSave = ƒS.Progress.setData(dataForSave, uiElement);
 
     // start the sequence
     ƒS.Progress.go(scenes);
   }
-
-  let uiElement: HTMLElement = document.querySelector("[type=interface]");
-  dataForSave = ƒS.Progress.setData(dataForSave, uiElement);
 }
 
 

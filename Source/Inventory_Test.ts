@@ -41,5 +41,7 @@ namespace Template {
         await ƒS.Speech.tell(characters.mainCharacter, "Jetzt kann ich aber endlich losgehen!");
         ƒS.Speech.clear();
 
+
+        //return Introduction;  	// nächste Szene die abgespielt wird
     }
 }

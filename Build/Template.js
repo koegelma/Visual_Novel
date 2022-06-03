@@ -92,6 +92,7 @@ var Template;
         }
         await Template.ƒS.Speech.tell(Template.characters.mainCharacter, "Jetzt kann ich aber endlich losgehen!");
         Template.ƒS.Speech.clear();
+        //return Introduction;  	// nächste Szene die abgespielt wird
     }
     Template.Inventory_Test = Inventory_Test;
 })(Template || (Template = {}));
@@ -261,12 +262,13 @@ var Template;
             //{ scene: Scene, name: "Scene" },
             //{ scene: Introduction, name: "Introduction" }
             { scene: Template.Inventory_Test, name: "Inventory_Test" }
+            //{id: "", scene: Scene, name: "Scene" , next:""}, --> next mit id ansprechen
         ];
+        let uiElement = document.querySelector("[type=interface]");
+        Template.dataForSave = Template.ƒS.Progress.setData(Template.dataForSave, uiElement);
         // start the sequence
         Template.ƒS.Progress.go(scenes);
     }
-    let uiElement = document.querySelector("[type=interface]");
-    Template.dataForSave = Template.ƒS.Progress.setData(Template.dataForSave, uiElement);
 })(Template || (Template = {}));
 var Template;
 (function (Template) {
