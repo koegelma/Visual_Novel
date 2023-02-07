@@ -8,23 +8,13 @@
   <script src="Fudge/FudgeCore.js"></script>
   <script src="FudgeStory/FudgeStory.js"></script>
   <script src="./Build/Template.js"></script>
-  <title>My Visual Novel</title>
+  <title>Broken Days</title>
   <splash src="Images/Splash.png" />
 </head>
 
 <body>
   <scene>
-
-    <dialog type="splash" open>
-      <img id="FudgeStoryLogo" theme="dark" /> <!-- use "light" or "dark" -->
-      <p>
-        <!-- Design your splash screen here. Reposition and rescale the logo above, but do not remove. -->
-      </p>
-    </dialog>
-
     <canvas></canvas>
-
-
     <speech>
       <name>
         <!-- The name of the character speaking - [Strg] + [#] -> auskommentieren-->
@@ -42,7 +32,7 @@
       <ul></ul>
     </dialog>
 
-    <!--
+    
     // Scale Fill
     <div type="interface">
       <input id="scaleForOlorin" type="text" value="Olorin" disabled>
@@ -50,8 +40,16 @@
       <meter id="olorinMeter" name="olorinScore" min="0" max="100" disabled></meter>
     </div>
     // Scale Fill
-    -->
+   
   </scene>
+
+  <dialog type="splash" open>
+    <img id="FudgeStoryLogo" theme="dark" /> <!-- use "light" or "dark" -->
+    <p>
+      <!-- Design your splash screen here. Reposition and rescale the logo above, but do not remove. -->
+    </p>
+  </dialog>
+  
 </body>
 
 </html>
